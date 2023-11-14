@@ -35,8 +35,6 @@ class Clique:
         nodes = list(self.nodes)
                 
         for i in range(len(nodes) - 1):
-            node = nodes[i]
-            adj = graph.adjacency_list[nodes[i]]
             if nodes[i+1] not in graph.adjacency_list[nodes[i]]:
                 return 0                
 
