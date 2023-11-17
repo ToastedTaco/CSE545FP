@@ -4,6 +4,7 @@ import pickle
 import networkx as nx
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from genalg import Generational_Data, Clique
 
 
 class CliqueApp:
@@ -46,17 +47,19 @@ class CliqueApp:
             with open(file_path, "rb") as file:
                 self.data = pickle.load(file)
             if "generational" in file_path:
+                self.all_cliques = [generation[0] for generational_data in self.data for generation in generational_data.generations]
+                        
                 self.generation_dropdown["values"] = [
-                    f"Generation {i}" for i in range(len(self.data))
+                    f"Generation {i}" for i in range(len(self.all_cliques))
                 ]
                 self.generation_dropdown.current(0)
                 self.on_generation_select(None)
             else:
-                self.display_graph(self.data)
+                self.display_graph(self.data.nodes)
 
     def on_generation_select(self, event):
         generation_index = self.generation_dropdown.current()
-        clique_nodes = self.data[generation_index]
+        clique_nodes = self.all_cliques[generation_index].nodes
         self.display_graph(clique_nodes)
 
     def display_graph(self, clique_nodes=None):
