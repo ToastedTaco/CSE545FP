@@ -178,7 +178,7 @@ def display_gui():
                             f"{os.path.basename(data_filename)}, Performance vs. Generation"
                         )
                         plt.xlabel("Generation")
-                        plt.ylabel("Cost")
+                        plt.ylabel("Performance")
                         plt.grid(True)
                         plt.savefig(
                             "temp_plot.png"
