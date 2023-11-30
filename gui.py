@@ -45,7 +45,7 @@ def display_gui():
         
         for i in range(len(all_cliques)):
             all_cliques_fitness[i] = len(all_cliques[i].nodes)
-
+        
         # Create the main Tkinter window
         root = tk.Tk()
         root.title("Genetic Algorithm TSP")
@@ -112,6 +112,7 @@ def display_gui():
                     default_gen
                 )  # Update the existing generation dropdown
                 update_cost_label(default_cost)
+                update_best_gen_label(generations, all_cliques_fitness)
                 update_graph()
 
             except FileNotFoundError:
@@ -260,10 +261,23 @@ def display_gui():
         # Function to update the cost label based on user selections
         def update_cost_label(cost):
             cost_label.config(text=f"Performance: {cost}")
+            
+        def update_best_gen_label(generations, all_cliques_fitness):
+            gen_num = 0
+            best_fit = 0
+            for generation in generations:
+                if all_cliques_fitness[generation] > best_fit:
+                    gen_num = generation
+                    best_fit = all_cliques_fitness[generation]
+                    
+            best_gen_label.config(text=f"Best Generation: {gen_num} Performance: {best_fit}")
 
         # Create a label for displaying the cost
         cost_label = ttk.Label(root, text="")
         cost_label.pack()
+        
+        best_gen_label = ttk.Label(root, text="")
+        best_gen_label.pack()
 
         # Create radio buttons for selecting the plot type
         plot_var = tk.StringVar()
@@ -299,6 +313,7 @@ def display_gui():
         # Initial update of the graph
         update_graph()
         update_generation_dropdown()
+        update_best_gen_label(generations, all_cliques_fitness)
 
         # Start the Tkinter main loop
         root.mainloop()
